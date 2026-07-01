@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bright Minds Tuition</title>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #333333;
+      line-height: 1.6;
+      background: #ffffff;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: #ffffff;
+      border-bottom: 1px solid #eeeeee;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      gap: 24px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+    }
+
+    .logo-text {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #333333;
+      line-height: 1.2;
+    }
+
+    .logo-text span {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: #777777;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav a {
+      font-size: 0.95rem;
+      color: #333333;
+      transition: color 0.2s;
+    }
+
+    .nav a:hover {
+      color: #f39c12;
+    }
+
+    .nav-dropdown {
+      position: relative;
+    }
+
+    .nav-subjects {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 0.95rem;
+      color: #333333;
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.2s;
+    }
+
+    .nav-subjects:hover,
+    .nav-dropdown.open .nav-subjects {
+      color: #f39c12;
+    }
+
+    .nav-subjects svg {
+      width: 12px;
+      height: 12px;
+      fill: currentColor;
+      transition: transform 0.2s;
+    }
+
+    .nav-dropdown.open .nav-subjects svg {
+      transform: rotate(180deg);
+    }
+
+    .subjects-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 160px;
+      background: #ffffff;
+      border: 1px solid #eeeeee;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      padding: 8px 0;
+      z-index: 200;
+    }
+
+    .nav-dropdown.open .subjects-menu {
+      display: block;
+    }
+
+    .subjects-menu a {
+      display: block;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      color: #333333;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .subjects-menu a:hover {
+      background: #f4f4f4;
+      color: #f39c12;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 22px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.2s;
+    }
+
+    .btn:hover {
+      opacity: 0.8;
+    }
+
+    .btn-outline {
+      background: #ffffff;
+      border: 1px solid #cccccc;
+      color: #333333;
+    }
+
+    .btn-primary {
+      background: #f39c12;
+      color: #ffffff;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 56px 0 64px;
+      background: #ffffff;
+      scroll-margin-top: 88px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .hero-content h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: #f39c12;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .hero-content p {
+      font-size: 0.95rem;
+      color: #333333;
+      margin-bottom: 28px;
+      max-width: 480px;
+    }
+
+    .hero-collage {
+      position: relative;
+      height: 380px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.7s ease;
+      pointer-events: none;
+    }
+
+    .hero-slide.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .hero-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-slide-science img {
+      opacity: 0.9;
+    }
+
+    .hero-slide-science::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(26, 58, 107, 0.2), rgba(26, 58, 107, 0.5));
+    }
+
+    .hero-slide-maths {
+      background: #2d6a3e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 8px solid #8b6914;
+    }
+
+    .hero-slide-maths span {
+      font-family: "Courier New", monospace;
+      font-size: 3.5rem;
+      color: #ffffff;
+      font-style: italic;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-slide-english img {
+      filter: none;
+    }
+
+    /* ── Subjects ── */
+    .subjects {
+      background: #f4f4f4;
+      padding: 56px 0;
+      scroll-margin-top: 88px;
+    }
+
+    .subjects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      text-align: center;
+    }
+
+    .subject-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 16px;
+    }
+
+    .subject-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .subjects-grid h3 {
+      font-size: 1.15rem;
+      color: #f39c12;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .subjects-grid p {
+      font-size: 0.9rem;
+      color: #555555;
+      max-width: 280px;
+      margin: 0 auto;
+    }
+
+    /* ── CTA Bar ── */
+    .cta-bar {
+      background: #ffffff;
+      padding: 28px 0;
+      text-align: center;
+      font-size: 1rem;
+      color: #333333;
+    }
+
+    .cta-bar a {
+      color: #f39c12;
+      font-weight: 700;
+    }
+
+    .cta-bar a:hover {
+      text-decoration: underline;
+    }
+
+    /* ── Timetable ── */
+    .timetable-section {
+      background: #f4f4f4;
+      padding: 48px 0 64px;
+    }
+
+    .timetable-card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+      padding: 36px 40px 32px;
+    }
+
+    .timetable-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    .timetable-header h2 {
+      font-size: 1.6rem;
+      color: #f39c12;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .timetable-header p {
+      font-size: 0.88rem;
+      color: #666666;
+      max-width: 420px;
+    }
+
+    .timetable-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .timetable-table thead th {
+      text-align: left;
+      color: #f39c12;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 12px 16px 14px 0;
+      border-bottom: 2px solid #eeeeee;
+    }
+
+    .timetable-table tbody tr.data-row td {
+      padding: 10px 16px 10px 0;
+      font-size: 0.88rem;
+      color: #333333;
+      border-bottom: 1px solid #eeeeee;
+    }
+
+    .timetable-table tbody tr.day-row td {
+      padding: 18px 0 6px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #6c7ae0;
+      border-bottom: none;
+    }
+
+    .timetable-table tbody tr.day-row:first-child td {
+      padding-top: 8px;
+    }
+
+    /* ── Testimonials ── */
+    .testimonials {
+      background: #f4f4f4;
+      padding: 48px 0 64px;
+    }
+
+    .testimonials-card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+      padding: 40px 40px 36px;
+    }
+
+    .testimonials-heading {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .testimonials-heading h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #f39c12;
+      margin-bottom: 6px;
+    }
+
+    .testimonials-heading p {
+      font-size: 0.88rem;
+      color: #666666;
+    }
+
+    .testimonials-carousel {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .carousel-arrow {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid #dddddd;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #333333;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+
+    .carousel-arrow:hover {
+      background: #fff8ee;
+      border-color: #f39c12;
+      color: #f39c12;
+    }
+
+    .carousel-arrow svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    .testimonials-viewport {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      min-width: 0;
+    }
+
+    .testimonials-track {
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .testimonial-card {
+      display: none;
+      text-align: center;
+      padding: 8px 12px 4px;
+    }
+
+    .testimonial-card.active {
+      display: block;
+    }
+
+    .stars {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 18px;
+      justify-content: center;
+    }
+
+    .stars svg {
+      width: 18px;
+      height: 18px;
+      fill: #f39c12;
+    }
+
+    .testimonial-quote {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #333333;
+      margin-bottom: 22px;
+      line-height: 1.6;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .author-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #f39c12;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #ffffff;
+      flex-shrink: 0;
+    }
+
+    .author-info {
+      font-size: 0.85rem;
+      color: #666666;
+      line-height: 1.4;
+      text-align: left;
+    }
+
+    .author-info strong {
+      color: #333333;
+      font-weight: 600;
+    }
+
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 28px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #dddddd;
+    }
+
+    .dot.active {
+      background: #f39c12;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      background: #333333;
+      color: #cccccc;
+      padding: 48px 0 0;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid #444444;
+    }
+
+    .footer-col h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #f39c12;
+      margin-bottom: 14px;
+    }
+
+    .footer-col p,
+    .footer-col a {
+      font-size: 0.9rem;
+      color: #cccccc;
+      line-height: 1.8;
+      display: block;
+    }
+
+    .footer-col a:hover {
+      color: #f39c12;
+    }
+
+    .footer-col .btn {
+      margin-top: 4px;
+    }
+
+    .footer-copyright {
+      text-align: center;
+      padding: 20px 0;
+      font-size: 0.82rem;
+      color: #888888;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .nav {
+        display: none;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-collage {
+        height: 300px;
+      }
+
+      .subjects-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .timetable-header {
+        flex-direction: column;
+      }
+
+      .testimonials-card {
+        padding: 28px 20px 24px;
+      }
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        text-align: center;
+      }
+
+      .testimonials-track {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="#" class="logo">
+        <svg class="logo-icon" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="18" r="12" fill="#7c3aed" opacity="0.15"/>
+          <path d="M20 6c-5.5 0-10 4.5-10 10 0 3.5 1.8 6.6 4.5 8.4V28h11v-3.6C28.2 22.6 30 19.5 30 16c0-5.5-4.5-10-10-10z" fill="#7c3aed"/>
+          <rect x="16" y="28" width="8" height="3" rx="1" fill="#f39c12"/>
+          <rect x="14" y="31" width="12" height="2" rx="1" fill="#f39c12"/>
+          <path d="M20 10l1.5 3 3.3.5-2.4 2.3.6 3.3L20 17.5l-3 1.6.6-3.3-2.4-2.3 3.3-.5z" fill="#f39c12"/>
+        </svg>
+        <div class="logo-text">
+          Bright Minds
+          <span>Tuition</span>
+        </div>
+      </a>
+
+      <nav class="nav">
+        <a href="#">About us</a>
+        <a href="#">Tutors</a>
+        <a href="#">Pricing</a>
+        <div class="nav-dropdown" id="subjectsDropdown">
+          <button class="nav-subjects" id="subjectsBtn" type="button" aria-expanded="false" aria-haspopup="true">
+            Subjects
+            <svg viewBox="0 0 12 12"><path d="M2 4l4 4 4-4"/></svg>
+          </button>
+          <div class="subjects-menu" id="subjectsMenu">
+            <a href="#maths">Maths</a>
+            <a href="#english">English</a>
+            <a href="#science">Science</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="header-actions">
+        <a href="login.html" class="btn btn-outline">Sign in</a>
+        <a href="login.html?mode=register" class="btn btn-primary">Register</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="why-choose-us">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <h1>Why choose us:</h1>
+        <p>Bright Minds Tuition provides high quality tuition in Maths, English and Science. The aim is to help every student improve confidence and academic performance in a safe, supportive environment, with small group learning so each one gets the attention they need to thrive.</p>
+        <a href="#" class="btn btn-primary">Find the right tutor for your child</a>
+      </div>
+
+      <div class="hero-collage" id="heroSlideshow">
+        <div class="hero-slide hero-slide-science active">
+          <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=600&h=800&fit=crop" alt="Student using a microscope in a science lab">
+        </div>
+        <div class="hero-slide hero-slide-maths">
+          <span>E=mc²</span>
+        </div>
+        <div class="hero-slide hero-slide-english">
+          <img src="https://images.unsplash.com/photo-1455885666462-8bb3a5971486?w=600&h=800&fit=crop" alt="Student reading a book for English tuition">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Subject Highlights -->
+  <section class="subjects" id="subjects">
+    <div class="container subjects-grid">
+      <div class="subject-item" id="maths">
+        <div class="subject-icon">
+          <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+            <text x="28" y="40" text-anchor="middle" font-size="36" font-weight="700" fill="#f39c12">Σ</text>
+          </svg>
+        </div>
+        <h3>Maths</h3>
+        <p>From basic arithmetic to GCSE, with clear, confident problem solving.</p>
+      </div>
+
+      <div class="subject-item" id="english">
+        <div class="subject-icon">
+          <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 12h36v32H10z" fill="none" stroke="#6c7ae0" stroke-width="2.5" rx="2"/>
+            <path d="M28 12v32" stroke="#6c7ae0" stroke-width="2"/>
+            <path d="M10 22h36" stroke="#6c7ae0" stroke-width="2"/>
+            <path d="M16 30h8M16 36h12" stroke="#6c7ae0" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>English</h3>
+        <p>Developing writing and comprehension skills for all levels.</p>
+      </div>
+
+      <div class="subject-item" id="science">
+        <div class="subject-icon">
+          <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22 44V18l6-6 6 6v26" fill="none" stroke="#6c7ae0" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M18 44h20" stroke="#6c7ae0" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="28" cy="30" r="4" fill="#6c7ae0" opacity="0.4"/>
+            <path d="M26 38h4" stroke="#6c7ae0" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Science</h3>
+        <p>Comprehensive tutoring across Biology, Chemistry and Physics.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Bar -->
+  <section class="cta-bar">
+    <div class="container">
+      Looking for a personal tutor? <a href="#">Get in touch</a>
+    </div>
+  </section>
+
+  <!-- Timetable -->
+  <section class="timetable-section">
+    <div class="container">
+      <div class="timetable-card">
+        <div class="timetable-header">
+          <div>
+            <h2>Timetable</h2>
+            <p>This is the time table of our live lessons subject on each day of the week.</p>
+          </div>
+          <a href="booking.html" class="btn btn-primary">Select your lesson</a>
+        </div>
+
+        <table class="timetable-table">
+          <thead>
+            <tr>
+              <th>Day/Subjects</th>
+              <th>Time</th>
+              <th>Year group</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="day-row">
+              <td colspan="3">Monday</td>
+            </tr>
+            <tr class="data-row">
+              <td>Maths</td>
+              <td>4:30 – 5:30pm</td>
+              <td>Primary (Y3-Y6)</td>
+            </tr>
+            <tr class="data-row">
+              <td>English</td>
+              <td>5:45 – 6:45pm</td>
+              <td>Secondary (Y7-Y9)</td>
+            </tr>
+
+            <tr class="day-row">
+              <td colspan="3">Tuesday</td>
+            </tr>
+            <tr class="data-row">
+              <td>Science</td>
+              <td>4:30 – 5:30pm</td>
+              <td>Primary (Y3-Y6)</td>
+            </tr>
+
+            <tr class="day-row">
+              <td colspan="3">Wednesday</td>
+            </tr>
+            <tr class="data-row">
+              <td>Maths</td>
+              <td>5:00 – 6:00pm</td>
+              <td>Secondary (GCSE)</td>
+            </tr>
+
+            <tr class="day-row">
+              <td colspan="3">Thursday</td>
+            </tr>
+            <tr class="data-row">
+              <td>English</td>
+              <td>4:30 – 5:30pm</td>
+              <td>Primary (Y3-Y6)</td>
+            </tr>
+
+            <tr class="day-row">
+              <td colspan="3">Sunday</td>
+            </tr>
+            <tr class="data-row">
+              <td>Science</td>
+              <td>10:00 – 11:00am</td>
+              <td>Secondary (GCSE)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <div class="container">
+      <div class="testimonials-card">
+      <div class="testimonials-heading">
+        <h2>Pupils testimonials</h2>
+        <p>Our students loved our service</p>
+      </div>
+
+      <div class="testimonials-carousel">
+        <button class="carousel-arrow" id="prevBtn" aria-label="Previous testimonial">
+          <svg viewBox="0 0 16 16"><path d="M10 3L5 8l5 5"/></svg>
+        </button>
+
+        <div class="testimonials-viewport">
+          <div class="testimonials-track">
+          <div class="testimonial-card active">
+            <div class="stars">
+              <svg viewBox="0 0 18 18"><path d="M9 1l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L1.8 6.2l5-.7z"/></svg>
+              <svg viewBox="0 0 18 18"><path d="M9 1l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L1.8 6.2l5-.7z"/></svg>
+              <svg viewBox="0 0 18 18"><path d="M9 1l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L1.8 6.2l5-.7z"/></svg>
+              <svg viewBox="0 0 18 18"><path d="M9 1l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L1.8 6.2l5-.7z"/></svg>
+              <svg viewBox="0 0 18 18"><path d="M9 1l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L1.8 6.2l5-.7z"/></svg>
+            </div>
+            <p class="testimonial-quote">"Small groups make such a difference. The tutors are patient, kind and really know their staff."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">AK</div>
+              <div class="author-info">
+                <strong>Abbie K.</strong>, parent, year 6
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="stars">
+              <svg viewBox="0 0 18 18"><path d="M9 1l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L1.8 6.2l5-.7z"/></svg>
+              <svg viewBox="0 0 18 18"><path d="M9 1l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L1.8 6.2l5-.7z"/></svg>
+              <svg viewBox="0 0 18 18"><path d="M9 1l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L1.8 6.2l5-.7z"/></svg>
+              <svg viewBox="0 0 18 18"><path d="M9 1l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L1.8 6.2l5-.7z"/></svg>
+              <svg viewBox="0 0 18 18"><path d="M9 1l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L1.8 6.2l5-.7z"/></svg>
+            </div>
+            <p class="testimonial-quote">"My daughter's confidence in Maths has grown so much since joining. She actually looks forward to lessons now."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">SB</div>
+              <div class="author-info">
+                <strong>Sarah B.</strong>, parent, year 8
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="stars">
+              <svg viewBox="0 0 18 18"><path d="M9 1l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L1.8 6.2l5-.7z"/></svg>
+              <svg viewBox="0 0 18 18"><path d="M9 1l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L1.8 6.2l5-.7z"/></svg>
+              <svg viewBox="0 0 18 18"><path d="M9 1l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L1.8 6.2l5-.7z"/></svg>
+              <svg viewBox="0 0 18 18"><path d="M9 1l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L1.8 6.2l5-.7z"/></svg>
+              <svg viewBox="0 0 18 18"><path d="M9 1l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L1.8 6.2l5-.7z"/></svg>
+            </div>
+            <p class="testimonial-quote">"Excellent Science tutoring — clear explanations and brilliant exam preparation. Highly recommended."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">MS</div>
+              <div class="author-info">
+                <strong>Mark S.</strong>, parent, GCSE
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+
+        <button class="carousel-arrow" id="nextBtn" aria-label="Next testimonial">
+          <svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5"/></svg>
+        </button>
+      </div>
+
+      <div class="carousel-dots" id="carouselDots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h3>Contact us</h3>
+          <a href="mailto:hello@brightmindstuition.com">hello@brightmindstuition.com</a>
+          <a href="tel:+441234567890">01234 567 890</a>
+          <p>Mon – Fri, 9am – 5pm</p>
+        </div>
+        <div class="footer-col">
+          <h3>About us</h3>
+          <a href="#why-choose-us">Why choose us</a>
+          <a href="#subjects">Our subjects</a>
+        </div>
+        <div class="footer-col">
+          <h3>Start now</h3>
+          <p>Ready to find the right tutor for your child?</p>
+          <a href="login.html?mode=register" class="btn btn-primary">Register today</a>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        &copy; 2026 Bright Minds Tuition. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var cards = document.querySelectorAll(".testimonial-card");
+      var dots = document.querySelectorAll("#carouselDots .dot");
+      var current = 0;
+
+      function showSlide(index) {
+        cards[current].classList.remove("active");
+        dots[current].classList.remove("active");
+
+        current = (index + cards.length) % cards.length;
+
+        cards[current].classList.add("active");
+        dots[current].classList.add("active");
+      }
+
+      document.getElementById("prevBtn").addEventListener("click", function () {
+        showSlide(current - 1);
+      });
+
+      document.getElementById("nextBtn").addEventListener("click", function () {
+        showSlide(current + 1);
+      });
+    })();
+
+    (function () {
+      var dropdown = document.getElementById("subjectsDropdown");
+      var btn = document.getElementById("subjectsBtn");
+      var menu = document.getElementById("subjectsMenu");
+
+      function closeMenu() {
+        dropdown.classList.remove("open");
+        btn.setAttribute("aria-expanded", "false");
+      }
+
+      btn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var isOpen = dropdown.classList.toggle("open");
+        btn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      });
+
+      menu.addEventListener("click", function () {
+        closeMenu();
+      });
+
+      document.addEventListener("click", function () {
+        closeMenu();
+      });
+    })();
+
+    (function () {
+      var slides = document.querySelectorAll("#heroSlideshow .hero-slide");
+      var current = 0;
+
+      function showHeroSlide(index) {
+        slides[current].classList.remove("active");
+        current = (index + slides.length) % slides.length;
+        slides[current].classList.add("active");
+      }
+
+      setInterval(function () {
+        showHeroSlide(current + 1);
+      }, 3500);
+    })();
+  </script>
+
+</body>
+</html>

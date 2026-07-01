@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a lesson – Bright Minds Tuition</title>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #333333;
+      line-height: 1.6;
+      background: #f4f4f4;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: #ffffff;
+      border-bottom: 1px solid #eeeeee;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+    }
+
+    .logo-text {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #333333;
+      line-height: 1.2;
+    }
+
+    .logo-text span {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: #777777;
+    }
+
+    .back-link {
+      font-size: 0.9rem;
+      color: #666666;
+      transition: color 0.2s;
+    }
+
+    .back-link:hover {
+      color: #f39c12;
+    }
+
+    /* ── Booking ── */
+    .booking-main {
+      flex: 1;
+      padding: 48px 0 64px;
+    }
+
+    .booking-card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+      padding: 36px 40px 32px;
+    }
+
+    .booking-header {
+      margin-bottom: 28px;
+    }
+
+    .booking-header h1 {
+      font-size: 1.6rem;
+      color: #f39c12;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .booking-header p {
+      font-size: 0.88rem;
+      color: #666666;
+      max-width: 520px;
+    }
+
+    .day-block {
+      border: 1px solid #eeeeee;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .day-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .day-toggle {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: #ffffff;
+      border: none;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #6c7ae0;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .day-toggle:hover {
+      background: #fafafa;
+    }
+
+    .day-toggle svg {
+      width: 14px;
+      height: 14px;
+      fill: #6c7ae0;
+      transition: transform 0.25s ease;
+      flex-shrink: 0;
+    }
+
+    .day-block.open .day-toggle svg {
+      transform: rotate(180deg);
+    }
+
+    .day-panel {
+      display: none;
+      border-top: 1px solid #eeeeee;
+    }
+
+    .day-block.open .day-panel {
+      display: block;
+    }
+
+    .timetable-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .timetable-table thead th {
+      text-align: left;
+      color: #f39c12;
+      font-weight: 600;
+      font-size: 0.85rem;
+      padding: 12px 20px;
+      background: #fafafa;
+      border-bottom: 1px solid #eeeeee;
+    }
+
+    .timetable-table tbody td {
+      padding: 12px 20px;
+      font-size: 0.88rem;
+      color: #333333;
+      border-bottom: 1px solid #eeeeee;
+      vertical-align: middle;
+    }
+
+    .timetable-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .timetable-table .col-book {
+      text-align: right;
+      width: 100px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+      transition: opacity 0.2s;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .btn-primary {
+      background: #f39c12;
+      color: #ffffff;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      background: #333333;
+      color: #888888;
+      text-align: center;
+      padding: 16px 0;
+      font-size: 0.82rem;
+    }
+
+    @media (max-width: 640px) {
+      .booking-card {
+        padding: 24px 16px 20px;
+      }
+
+      .timetable-table thead {
+        display: none;
+      }
+
+      .timetable-table tbody tr {
+        display: block;
+        padding: 14px 20px;
+        border-bottom: 1px solid #eeeeee;
+      }
+
+      .timetable-table tbody tr:last-child {
+        border-bottom: none;
+      }
+
+      .timetable-table tbody td {
+        display: block;
+        padding: 2px 0;
+        border: none;
+      }
+
+      .timetable-table tbody td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #f39c12;
+        font-size: 0.78rem;
+        display: block;
+        margin-bottom: 2px;
+      }
+
+      .timetable-table .col-book {
+        text-align: left;
+        width: auto;
+        margin-top: 10px;
+      }
+
+      .timetable-table .col-book::before {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <svg class="logo-icon" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="18" r="12" fill="#7c3aed" opacity="0.15"/>
+          <path d="M20 6c-5.5 0-10 4.5-10 10 0 3.5 1.8 6.6 4.5 8.4V28h11v-3.6C28.2 22.6 30 19.5 30 16c0-5.5-4.5-10-10-10z" fill="#7c3aed"/>
+          <rect x="16" y="28" width="8" height="3" rx="1" fill="#f39c12"/>
+          <rect x="14" y="31" width="12" height="2" rx="1" fill="#f39c12"/>
+          <path d="M20 10l1.5 3 3.3.5-2.4 2.3.6 3.3L20 17.5l-3 1.6.6-3.3-2.4-2.3 3.3-.5z" fill="#f39c12"/>
+        </svg>
+        <div class="logo-text">
+          Bright Minds
+          <span>Tuition</span>
+        </div>
+      </a>
+      <a href="index.html" class="back-link">&larr; Back to home</a>
+    </div>
+  </header>
+
+  <main class="booking-main">
+    <div class="container">
+      <div class="booking-card">
+        <div class="booking-header">
+          <h1>Book a lesson</h1>
+          <p>Choose a day below to view available slots, then click Book to reserve your place.</p>
+        </div>
+
+        <div class="booking-days">
+
+          <div class="day-block open">
+            <button class="day-toggle" type="button" aria-expanded="true">
+              Monday
+              <svg viewBox="0 0 14 14"><path d="M3 5l4 4 4-4"/></svg>
+            </button>
+            <div class="day-panel">
+              <table class="timetable-table">
+                <thead>
+                  <tr>
+                    <th>Subject</th>
+                    <th>Time</th>
+                    <th>Year group</th>
+                    <th class="col-book"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-label="Subject">Maths</td>
+                    <td data-label="Time">4:30 – 5:30pm</td>
+                    <td data-label="Year group">Primary (Y3-Y6)</td>
+                    <td class="col-book"><button type="button" class="btn btn-primary">Book</button></td>
+                  </tr>
+                  <tr>
+                    <td data-label="Subject">English</td>
+                    <td data-label="Time">5:45 – 6:45pm</td>
+                    <td data-label="Year group">Secondary (Y7-Y9)</td>
+                    <td class="col-book"><button type="button" class="btn btn-primary">Book</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="day-block">
+            <button class="day-toggle" type="button" aria-expanded="false">
+              Tuesday
+              <svg viewBox="0 0 14 14"><path d="M3 5l4 4 4-4"/></svg>
+            </button>
+            <div class="day-panel">
+              <table class="timetable-table">
+                <thead>
+                  <tr>
+                    <th>Subject</th>
+                    <th>Time</th>
+                    <th>Year group</th>
+                    <th class="col-book"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-label="Subject">Science</td>
+                    <td data-label="Time">4:30 – 5:30pm</td>
+                    <td data-label="Year group">Primary (Y3-Y6)</td>
+                    <td class="col-book"><button type="button" class="btn btn-primary">Book</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="day-block">
+            <button class="day-toggle" type="button" aria-expanded="false">
+              Wednesday
+              <svg viewBox="0 0 14 14"><path d="M3 5l4 4 4-4"/></svg>
+            </button>
+            <div class="day-panel">
+              <table class="timetable-table">
+                <thead>
+                  <tr>
+                    <th>Subject</th>
+                    <th>Time</th>
+                    <th>Year group</th>
+                    <th class="col-book"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-label="Subject">Maths</td>
+                    <td data-label="Time">5:00 – 6:00pm</td>
+                    <td data-label="Year group">Secondary (GCSE)</td>
+                    <td class="col-book"><button type="button" class="btn btn-primary">Book</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="day-block">
+            <button class="day-toggle" type="button" aria-expanded="false">
+              Thursday
+              <svg viewBox="0 0 14 14"><path d="M3 5l4 4 4-4"/></svg>
+            </button>
+            <div class="day-panel">
+              <table class="timetable-table">
+                <thead>
+                  <tr>
+                    <th>Subject</th>
+                    <th>Time</th>
+                    <th>Year group</th>
+                    <th class="col-book"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-label="Subject">English</td>
+                    <td data-label="Time">4:30 – 5:30pm</td>
+                    <td data-label="Year group">Primary (Y3-Y6)</td>
+                    <td class="col-book"><button type="button" class="btn btn-primary">Book</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="day-block">
+            <button class="day-toggle" type="button" aria-expanded="false">
+              Sunday
+              <svg viewBox="0 0 14 14"><path d="M3 5l4 4 4-4"/></svg>
+            </button>
+            <div class="day-panel">
+              <table class="timetable-table">
+                <thead>
+                  <tr>
+                    <th>Subject</th>
+                    <th>Time</th>
+                    <th>Year group</th>
+                    <th class="col-book"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-label="Subject">Science</td>
+                    <td data-label="Time">10:00 – 11:00am</td>
+                    <td data-label="Year group">Secondary (GCSE)</td>
+                    <td class="col-book"><button type="button" class="btn btn-primary">Book</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    &copy; 2026 Bright Minds Tuition. All rights reserved.
+  </footer>
+
+  <script>
+    (function () {
+      var dayBlocks = document.querySelectorAll(".day-block");
+
+      dayBlocks.forEach(function (block) {
+        var toggle = block.querySelector(".day-toggle");
+
+        toggle.addEventListener("click", function () {
+          var isOpen = block.classList.contains("open");
+
+          dayBlocks.forEach(function (b) {
+            b.classList.remove("open");
+            b.querySelector(".day-toggle").setAttribute("aria-expanded", "false");
+          });
+
+          if (!isOpen) {
+            block.classList.add("open");
+            toggle.setAttribute("aria-expanded", "true");
+          }
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>
