@@ -175,6 +175,27 @@
       display: block;
     }
 
+    .form-submit-error {
+      display: none;
+      background: #fdf2f2;
+      border: 1px solid #f5c6cb;
+      color: #c0392b;
+      padding: 12px 14px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      margin-bottom: 18px;
+      text-align: center;
+    }
+
+    .form-submit-error.visible {
+      display: block;
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
     .btn {
       display: block;
       width: 100%;
@@ -232,6 +253,7 @@
       <h1>Contact us</h1>
       <p class="subtitle">Send us a message and we'll get back to you as soon as we can.</p>
 
+      <div class="form-submit-error" id="formSubmitError">Something went wrong. Please try again.</div>
       <div class="form-success" id="formSuccess">Thank you! Your message has been sent.</div>
 
       <form id="contactForm" novalidate>
@@ -250,7 +272,7 @@
           <textarea id="contactMessage" name="message" placeholder="How can we help you?" required></textarea>
           <p class="form-error" id="messageError">Please enter a message.</p>
         </div>
-        <button type="submit" class="btn btn-primary">Send message</button>
+        <button type="submit" class="btn btn-primary" id="submitBtn">Send message</button>
       </form>
     </div>
   </main>
@@ -259,16 +281,23 @@
     &copy; 2026 Bright Minds Tuition. All rights reserved.
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     (function () {
+      var SUPABASE_URL = "https://mefyshuztvkxnybvzvnz.supabase.co";
+      var SUPABASE_KEY = "sb_publishable_jqJqozrmF9lpXxBoae4UFQ_NCBqwRns";
+      var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
       var form = document.getElementById("contactForm");
       var formSuccess = document.getElementById("formSuccess");
+      var formSubmitError = document.getElementById("formSubmitError");
+      var submitBtn = document.getElementById("submitBtn");
 
       function isValidEmail(value) {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
       }
 
-      form.addEventListener("submit", function (e) {
+      form.addEventListener("submit", async function (e) {
         e.preventDefault();
 
         var name = document.getElementById("contactName").value.trim();
@@ -280,6 +309,7 @@
           el.classList.remove("visible");
         });
         formSuccess.classList.remove("visible");
+        formSubmitError.classList.remove("visible");
 
         if (!name) {
           document.getElementById("nameError").classList.add("visible");
@@ -294,6 +324,19 @@
           valid = false;
         }
         if (!valid) return;
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Sending...";
+
+        var result = await supabase.from("enquiries").insert({ name: name, email: email, message: message });
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Send message";
+
+        if (result.error) {
+          formSubmitError.classList.add("visible");
+          return;
+        }
 
         formSuccess.classList.add("visible");
         form.reset();
